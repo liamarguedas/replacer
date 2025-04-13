@@ -1,0 +1,14 @@
+locale:
+    EN
+
+    shortcuts:
+      - trigger: gg
+        replace: Good game!
+        
+locale:
+    ES
+    
+    shortcuts:
+      - trigger: email
+        replace: iliamftw2013@gmail.com
+      
