@@ -5,23 +5,32 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import entities.error.ReplacerNotFound;
 
 public class BaseReader {
 
 	private static final String LOCALE_KEYWORD = "locale";
 	private static final String TRIGGER_KEYWORD = "trigger";
 	private static final String REPLACER_KEYWORD = "replace";
+	private Locale shortcutLocale;
 
 	public String path;
-	public Map<String, String> shortcuts;
+	public Set<Shortcut> shortcuts = new HashSet<>();
 
 	public BaseReader(String path) {
 		this.path = path;
-		generate(this.path);
+		generateShortcuts(this.path);
+	}
+	
+	public Set<Shortcut> getShortcuts(){
+		return shortcuts;
 	}
 
-	public void generate(String path) {
+	private void generateShortcuts(String path) {
 
 		try (BufferedReader file = new BufferedReader(new FileReader(path))) {
 
@@ -36,17 +45,24 @@ public class BaseReader {
 
 				if (isNewLocale(line)) {
 
-					Locale shortcutsLocal = new Locale(lines.get(currentLine + 1).replace(" ", ""));
+					shortcutLocale = new Locale(lines.get(currentLine + 1).replace(" ", ""));
 
 				} else if (isTrigger(line)) {
 
-					String replace = lines.get(currentLine + 1);
+					String trigger = trimShortcut(line);
+					
+					String replacerLine = lines.get(currentLine + 1);
 
-					if (isReplacer(replace)) {
-
+					if (isReplacer(replacerLine)) {
 						
+						String replacer = trimShortcut(replacerLine);
 						
+						shortcuts.add( new Shortcut(shortcutLocale, trigger, replacer) );
 
+					} else {
+						
+						throw new ReplacerNotFound(trigger);
+											
 					}
 
 				}
@@ -56,6 +72,8 @@ public class BaseReader {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ReplacerNotFound e) {
 			e.printStackTrace();
 		}
 	}
