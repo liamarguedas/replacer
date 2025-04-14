@@ -1,5 +1,6 @@
 package utils;
 
+import java.util.LinkedList;
 import java.util.Set;
 
 import entities.Shortcut;
@@ -10,18 +11,16 @@ public class Cleaning {
 		return line.split(":\\s*")[1];
 	}
 	
-	public static Integer getThreshold(Set<Shortcut> shortcuts) { 
-		// Threshold is calculated by the largest trigger in length.
+	public static <T> String joinList(LinkedList<T> list) {
 		
-		Integer max = 0;
+		StringBuilder builder = new StringBuilder();
 		
-		for (Shortcut shortcut : shortcuts) {
-			if ( shortcut.getLen() > max ) {
-				max = shortcut.getLen();
-			}
+		for (T letter: list) {
+			builder.append(letter);
 		}
-		
-		return max;
+			
+		return builder.toString();
+			
 	}
 
 }

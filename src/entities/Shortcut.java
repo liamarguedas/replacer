@@ -1,5 +1,7 @@
 package entities;
 
+import java.util.Objects;
+
 public class Shortcut {
 
 	private Locale locale;
@@ -30,6 +32,48 @@ public class Shortcut {
 
 	public String getReplacer() {
 		return replacer;
+	}
+	
+	public void writeReplacer() {
+		
+		//logic to write it
+		System.out.println(replacer);
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(trigger);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Shortcut other = (Shortcut) obj;
+		return Objects.equals(trigger, other.trigger);
 	}
 
 }
