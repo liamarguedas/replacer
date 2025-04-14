@@ -8,7 +8,7 @@ import com.github.kwhat.jnativehook.NativeHookException;
 
 import entities.BaseReader;
 import entities.Shortcut;
-import services.Listener;
+import services.ListenerService;
 
 public class Program {
 
@@ -27,7 +27,7 @@ public class Program {
 			System.out.println(e.getMessage());
 		}
 		
-		GlobalScreen.addNativeKeyListener(new Listener(shortcuts));
+		GlobalScreen.addNativeKeyListener(new ListenerService(shortcuts));
 			
 	}
 

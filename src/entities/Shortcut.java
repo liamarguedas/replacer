@@ -2,14 +2,22 @@ package entities;
 
 public class Shortcut {
 
-	public Locale locale;
-	public String trigger;
-	public String replacer;
+	private Locale locale;
+	private String trigger;
+	private String replacer;
+	private Integer len;	
+		
+		
 
 	public Shortcut(Locale locale, String trigger, String replacer) {
 		this.locale = locale;
-		this.trigger = trigger;
+		this.trigger = trigger.toUpperCase();
 		this.replacer = replacer;
+		this.len = trigger.length();
+	}
+
+	public Integer getLen() {
+		return len;
 	}
 
 	public Locale getLocale() {

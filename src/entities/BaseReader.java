@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import entities.error.ReplacerNotFound;
+import utils.Cleaning;
 
 public class BaseReader {
 
@@ -18,15 +19,15 @@ public class BaseReader {
 	private static final String REPLACER_KEYWORD = "replace";
 	private Locale shortcutLocale;
 
-	public String path;
-	public Set<Shortcut> shortcuts = new HashSet<>();
+	private String path;
+	private Set<Shortcut> shortcuts = new HashSet<>();
 
 	public BaseReader(String path) {
 		this.path = path;
 		generateShortcuts(this.path);
 	}
-	
-	public Set<Shortcut> getShortcuts(){
+
+	public Set<Shortcut> getShortcuts() {
 		return shortcuts;
 	}
 
@@ -49,24 +50,22 @@ public class BaseReader {
 
 				} else if (isTrigger(line)) {
 
-					String trigger = trimShortcut(line);
-					
+					String trigger = Cleaning.trimShortcut(line);
+
 					String replacerLine = lines.get(currentLine + 1);
 
 					if (isReplacer(replacerLine)) {
-						
-						String replacer = trimShortcut(replacerLine);
-						
-						shortcuts.add( new Shortcut(shortcutLocale, trigger, replacer) );
+
+						String replacer = Cleaning.trimShortcut(replacerLine);
+
+						shortcuts.add(new Shortcut(shortcutLocale, trigger, replacer));
 
 					} else {
-						
+
 						throw new ReplacerNotFound(trigger);
-											
+
 					}
-
 				}
-
 			}
 
 		} catch (FileNotFoundException e) {
@@ -88,9 +87,5 @@ public class BaseReader {
 
 	private Boolean isReplacer(String line) {
 		return line.contains(REPLACER_KEYWORD);
-	}
-
-	private String trimShortcut(String line) {
-		return line.split(":\\s*")[1];
 	}
 }
